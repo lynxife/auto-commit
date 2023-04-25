@@ -1,5 +1,5 @@
-import simpleGit, { DiffResult, SimpleGit, StatusResult } from "simple-git";
-import vscode from "vscode";
+import simpleGit, { SimpleGit } from "simple-git";
+import * as vscode from "vscode";
 
 const rootPath = vscode.workspace.workspaceFolders
   ? vscode.workspace.workspaceFolders[0].uri.fsPath
@@ -7,14 +7,21 @@ const rootPath = vscode.workspace.workspaceFolders
 
 const git: SimpleGit = simpleGit(rootPath);
 
-export async function getStagedChanges(): Promise<string[]> {
+export async function getStagedChanges() {
   try {
     const status = await git.status();
     const stagedFiles = status.staged;
-    return stagedFiles;
+    const renameFiles = status.renamed;
+    return {
+      stagedFiles,
+      renameFiles,
+    };
   } catch (error) {
     console.error("Error reading Git staged changes:", error);
-    return [];
+    return {
+      stagedFiles: [],
+      renameFiles: [],
+    };
   }
 }
 
@@ -42,19 +49,20 @@ export function simplifyGitDiff(filename: string, diffOutput: string): string {
   const diff = diffArr.join("\n");
 
   diff.split("\n").forEach((line) => {
-    if (line.startsWith("@@")) return;
+    if (line.startsWith("@@")) {
+      return;
+    }
 
-    if (line.startsWith("+")) added.push(line.substring(1));
-    else if (line.startsWith("-")) removed.push(line.substring(1));
-    else if (line.startsWith(" ")) unchanged.push(line.substring(1));
+    if (line.startsWith("+")) {
+      added.push(line.substring(1));
+    } else if (line.startsWith("-")) {
+      removed.push(line.substring(1));
+    } else if (line.startsWith(" ")) {
+      unchanged.push(line.substring(1));
+    }
   });
 
   const result = [];
-
-  if (added.length > 0) {
-    result.push(`+ ${updatedFilename}`);
-    result.push(...added);
-  }
 
   if (removed.length > 0) {
     if (added.length === 0) {
@@ -65,7 +73,10 @@ export function simplifyGitDiff(filename: string, diffOutput: string): string {
     }
   }
 
-  // console.log("arrs", unchanged, added, removed);
+  if (added.length > 0) {
+    result.push(`+ ${updatedFilename}`);
+    result.push(...added);
+  }
 
   return result.join("\n");
 }

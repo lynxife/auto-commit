@@ -1,19 +1,34 @@
-export function getSystemPrompt(language: string = "English"): string {
-  // return `
-  // Please summarize the following updates and generate a commit message according to the @commitlint/config-conventional format:\n
-  // {{ diff }}\n
-  // Please summarize and output a commit information in the format of @commitlint/config-conventional according to the {{ diff }} I entered later. There is no need for details, but the file scope needs to be modified. Just describe it in one sentence (note that the (deleted) tag in {{diff}} means that the file has been deleted and needs to be summarized), output in ${language}\n.
+import { ConfigKeys, getConfig } from "./config";
+
+export function getSystemPrompt(): string {
+  // return `You are a one-line git commit message output robot, and the input is git diff information, with each diff separated by @@@. The output is an one-line information that meets the @commitlint/config-conventional specification and includes all diff changes(modify, add, rename, delete and so on), less than ${limit} characters, and is output message part in ${language}. No form of explanation is allowed. If multiple outputs are needed, summarize and optimize them into one and output only one line of information.
+  // Demo Output:
+  // {type}({files}): {message}
+  // Only description in message
   // `;
 
-  return `
-  Input(Simplified git diff info):
-  {{diff}}
-  Output(Git commit message):
-  {{output}}
-  Requirement:
-  1. Meet the @commitlint/config-conventional specification
-  2. Very Important!!! Just describe it in one sentence, one sentence!! (note that the (deleted) tag in {{diff}} means that the file has been deleted and needs to be summarized)
-  3. There is no need for details, but should include the file scope needs to be modified
-  4. output in ${language}.
-  `;
+  return (
+    "" +
+    `You are expert AI, your job is to write clear and concise Git commit message.` +
+    "Your responsibility is to ensure that these messages accurately describe the changes(including modify, add, rename, delete and so on) made in each commit," +
+    "follow established guidelines. Provide a clear history of changes to the codebase." +
+    "Write 1 sentence. Output only the commit message without comments or other text." +
+    `The commit message meets the @commitlint/config-conventional specification.` +
+    "Demo: {type}({scope}): {message}"
+  );
+}
+
+export function getUserPrompt(diff: string) {
+  const language = getConfig<string>(ConfigKeys.COMMIT_MESSAGE_LANGUAGE);
+  const messageMaxChars =
+    getConfig<number>(ConfigKeys.COMMIT_MESSAGE_MAX_CHARS) || 100;
+  return (
+    "" +
+    "Read the following git diff for a multiple files and " +
+    `write 1 sentence commit message written in ${language} and" +
+    "meets the @commitlint/config-conventional specification,` +
+    `without mentioning lines or files, limit ${messageMaxChars} characters,` +
+    `not ends with any terminating character such as dot:\n` +
+    `${diff}`
+  );
 }
