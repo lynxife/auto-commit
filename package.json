@@ -4,7 +4,8 @@
   "description": "An ai commit vscode plugin powered by openai api",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.77.0"
+    "vscode": "^1.77.0",
+    "node": ">=16"
   },
   "categories": [
     "Other"
@@ -12,7 +13,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.autoCommit",
+        "command": "extension.auto-commit",
         "title": "Auto Commit",
         "icon": {
           "dark": "images/icon-dark.svg",
@@ -23,7 +24,7 @@
     "menus": {
       "scm/title": [
         {
-          "command": "extension.autoCommit",
+          "command": "extension.auto-commit",
           "group": "navigation"
         }
       ]
@@ -31,41 +32,70 @@
     "configuration": {
       "title": "Auto Commit",
       "properties": {
-        "autoCommit.OPENAI_API_KEY": {
+        "auto-commit.OPENAI_API_KEY": {
           "type": "string",
           "default": "",
-          "description": "Your OpenAI API Secret Key"
+          "description": "OpenAI API Key"
+        },
+        "auto-commit.COMMIT_MESSAGE_LANGUAGE": {
+          "type": "string",
+          "default": "English",
+          "enum": [
+            "English",
+            "Chinese"
+          ],
+          "enumDescriptions": [
+            "English",
+            "中文 (Chinese)"
+          ],
+          "description": "Commit message language"
+        },
+        "auto-commit.COMMIT_MESSAGE_MAX_CHARS": {
+          "type": "number",
+          "default": 100,
+          "description": "Maximum characters allowed for the generated commit message"
+        },
+        "auto-commit.MAX_FILE_CHANGES_CHARS": {
+          "type": "number",
+          "default": 4000,
+          "description": "Maximum characters allowed for file changes"
         }
       }
     }
   },
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "scripts": {
-    "vscode:prepublish": "pnpm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "pnpm run compile && pnpm run lint",
+    "vscode:prepublish": "pnpm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@types/vscode": "^1.77.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
-    "@types/vscode": "^1.77.0",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
-    "@vscode/test-electron": "^2.3.0",
     "eslint": "^8.36.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "ts-loader": "^9.4.2",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1",
+    "@vscode/test-electron": "^2.3.0"
   },
   "dependencies": {
     "chatgpt": "^5.2.2",
     "simple-git": "^3.17.0"
   },
-  "volta": {
-    "node": "18.16.0"
+  "resolutions": {
+    "@types/node": "16.x"
   }
 }
