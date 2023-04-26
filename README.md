@@ -2,7 +2,7 @@
 
 Auto-Commit 是一个 Visual Studio Code 扩展，用于通过检查 Git 暂存区的改动，自动生成符合 Conventional Commit 规范的 commit 信息。该扩展适合希望简化提交消息生成流程并遵循统一规范的开发者。
 
-![](http://cdn.wingsico.org/20230426144822.gif)
+![](https://github.com/lynxife/auto-commit/blob/main/demo.gif?raw=true)
 ## 特性
 
 - 读取 Git 暂存区的改动内容
