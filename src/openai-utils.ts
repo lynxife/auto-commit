@@ -1,5 +1,5 @@
-import { getSystemPrompt } from "./prompt.js";
-import { ConfigKeys, getConfig } from "./config.js";
+import { getSystemPrompt } from "./prompt";
+import { ConfigKeys, getConfig } from "./config";
 
 const importDynamic = new Function("modulePath", "return import(modulePath)");
 
