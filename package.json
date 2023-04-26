@@ -100,7 +100,7 @@
     "@vscode/test-electron": "^2.3.0"
   },
   "dependencies": {
-    "chatgpt": "^5.2.2",
+    "chatgpt-api-cjs": "^5.0.15",
     "simple-git": "^3.17.0"
   },
   "resolutions": {

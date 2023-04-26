@@ -1,11 +1,8 @@
 import { getSystemPrompt } from "./prompt";
 import { ConfigKeys, getConfig } from "./config";
-
-const importDynamic = new Function("modulePath", "return import(modulePath)");
+import { ChatGPTAPI } from "chatgpt-api-cjs";
 
 export async function getChatgpt() {
-  const { ChatGPTAPI } = await importDynamic("chatgpt");
-
   const apiKey = getConfig<string>(ConfigKeys.OPENAI_API_KEY);
 
   return new ChatGPTAPI({
