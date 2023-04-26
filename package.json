@@ -10,6 +10,12 @@
   "categories": [
     "Other"
   ],
+  "publisher": "lnx",
+  "repository": "https://github.com/lynxife/auto-commit",
+  "icon": "https://media.discordapp.net/attachments/1088224182720004156/1100685290311520306/lynxife_a_flat_icon_style_logo_with_blue_letter_A_95c3d54d-9071-4bf6-983c-009fe46c1dc9.png?width=128&height=128",
+  "activationEvents": [
+    "onCommand:auto-commit"
+  ],
   "contributes": {
     "commands": [
       {
@@ -65,10 +71,12 @@
   },
   "main": "./dist/extension.js",
   "scripts": {
-    "vscode:prepublish": "pnpm run package",
+    "vscode:prepublish": "pnpm run build",
     "compile": "webpack",
     "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
+    "build": "webpack --mode production --devtool hidden-source-map",
+    "package": "pnpm vsce package --no-dependencies",
+    "publish": "pnpm vsce publish --no-dependencies",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
