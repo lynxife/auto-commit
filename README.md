@@ -1,71 +1,53 @@
-# auto-commit README
+# Auto-Commit: A VSCode Extension
 
-This is the README for your extension "auto-commit". After writing up a brief description, we recommend including the following sections.
+Auto-Commit 是一个 Visual Studio Code 扩展，用于通过检查 Git 暂存区的改动，自动生成符合 Conventional Commit 规范的 commit 信息。该扩展适合希望简化提交消息生成流程并遵循统一规范的开发者。
 
-## Features
+![](http://cdn.wingsico.org/20230426144822.gif)
+## 特性
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- 读取 Git 暂存区的改动内容
+- 调用 OpenAI API 自动生成 Commit 信息
+- 自动生成的 Commit 信息符合 Commitizen 规范
+- 提供可点击的图标按钮以触发插件功能
+- 支持各种语言的 Commit 信息
+- 用户可配置：
 
-For example if there is an image subfolder under your extension project workspace:
+  - OpenAI API Key
+  - Commit 信息的语言
+  - 自动生成的 Commit 信息限制的最大字符数
+  - 允许变更的文件最大字符数
 
-\!\[feature X\]\(images/feature-x.png\)
+## 安装
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+在 VSCode 中搜索 "Auto-Commit" 并点击 "Install" 按钮，或从 [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=your_publisher_name.auto-commit) 直接安装。
 
-## Requirements
+## 使用方法
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+1. 确保您已经安装并启用了 Auto-Commit 扩展。
+2. 在 VSCode 设置中，找到 "Auto-Commit" 配置项，并根据需要进行配置：
 
-## Extension Settings
+    - 设置 "auto-commit.OPENAI_API_KEY" 为您的 OpenAI API Key.
+    - 设置 "auto-commit.COMMIT_MESSAGE_LANGUAGE" 为您希望生成的 Commit 信息的语言，目前支持中文和英文。
+    - 设置 "auto-commit.COMMIT_MESSAGE_MAX_CHARS" 为生成的 Commit 信息的最大字符数。
+    - 设置 "auto-commit.MAX_FILE_CHANGES_CHARS" 为文件变更内容的最大字符数。
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+3. 在项目中进行更改并将更改添加到暂存区 (git add)。
+4. 在 "Source Control" 面板的提交消息输入框旁边，单击 "Auto-Commit" 图标按钮。点击后，扩展将生成 Commit 信息并填充到输入框中。
+5. 审核生成的 Commit 信息，如果满意，请提交更改。
 
-For example:
+## 开发者
 
-This extension contributes the following settings:
+### 本地开发
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+1. 克隆此仓库，切换到项目目录。
+2. 在项目根目录运行 `pnpm install` 以安装依赖项。
+3. 在 VSCode 中打开项目文件夹。
+4. 按 F5 键运行项目。会弹出一个新的 Extension Development Host 窗口，并在其中启动插件。
 
-## Known Issues
+### 贡献
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+本项目欢迎您的贡献！请在 GitHub 上提交问题报告或发起合并请求。
 
-## Release Notes
+## 许可
 
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+项目使用 [MIT 许可证](LICENSE)。
