@@ -13,8 +13,7 @@ export function getSystemPrompt(): string {
     "Your responsibility is to ensure that these messages accurately describe the changes(including modify, add, rename, delete and so on) made in each commit," +
     "follow established guidelines. Provide a clear history of changes to the codebase." +
     "Write 1 sentence. Output only the commit message without comments or other text." +
-    `The commit message meets the @commitlint/config-conventional specification.` +
-    "Demo: {type}({scope}): {message}"
+    `The commit message meets the @commitlint/config-conventional specification.`
   );
 }
 
@@ -22,13 +21,19 @@ export function getUserPrompt(diff: string) {
   const language = getConfig<string>(ConfigKeys.COMMIT_MESSAGE_LANGUAGE);
   const messageMaxChars =
     getConfig<number>(ConfigKeys.COMMIT_MESSAGE_MAX_CHARS) || 100;
+  const enableEmoji = getConfig<boolean>(ConfigKeys.EMOJI_ENABLED);
   return (
     "" +
     "Read the following git diff for a multiple files and " +
     `write 1 sentence commit message written in ${language} and" +
     "meets the @commitlint/config-conventional specification,` +
     `without mentioning lines or files, limit ${messageMaxChars} characters,` +
-    `not ends with any terminating character such as dot:\n` +
-    `${diff}`
+    `output with emoji if emoji enabled, ` +
+    `format: <emoji?><type><(scope)?>: <message>: \n` +
+    `---\n` +
+    `${diff} \n` +
+    `---` +
+    `settings: \n` +
+    `emoji: ${enableEmoji ? "enabled" : "disabled"}`
   );
 }

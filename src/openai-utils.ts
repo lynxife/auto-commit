@@ -10,7 +10,7 @@ export async function getChatgpt() {
     completionParams: {
       model: "gpt-3.5-turbo",
       temperature: 0.1,
-      top_p: 1,
+      top_p: 0.7,
     },
     systemMessage: getSystemPrompt(),
   });

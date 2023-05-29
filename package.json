@@ -65,6 +65,11 @@
           "type": "number",
           "default": 4000,
           "description": "Maximum characters allowed for file changes"
+        },
+        "auto-commit.EMOJI_ENABLED": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable emoji"
         }
       }
     }

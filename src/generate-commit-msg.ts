@@ -59,6 +59,10 @@ export async function generateCommitMsg() {
           return;
         }
         scmInputBox.value += delta;
+
+        if (scmInputBox.value.endsWith(".")) {
+          scmInputBox.value = scmInputBox.value.slice(0, -1);
+        }
       },
     });
 
